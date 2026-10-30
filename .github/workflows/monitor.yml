@@ -1,0 +1,40 @@
+name: Nieuwsmonitor
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"   # elke 15 minuten (GitHub kan dit enkele minuten vertragen)
+  workflow_dispatch:          # handmatig starten via het tabblad Actions
+
+permissions:
+  contents: write             # nodig om seen.json terug te committen
+
+concurrency:
+  group: nieuwsmonitor
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Installeer afhankelijkheden
+        run: pip install feedparser requests
+
+      - name: Draai monitor
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: python monitor.py
+
+      - name: Sla gezien-lijst op
+        run: |
+          git config user.name "nieuwsmonitor-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add seen.json
+          git diff --staged --quiet || (git commit -m "Update seen.json" && git push)
