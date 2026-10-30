@@ -2,7 +2,7 @@ name: Nieuwsmonitor
 
 on:
   schedule:
-    - cron: "*/15 * * * *"   # elke 15 minuten (GitHub kan dit enkele minuten vertragen)
+    - cron: "*/30 * * * *"   # elke 15 minuten (GitHub kan dit enkele minuten vertragen)
   workflow_dispatch:          # handmatig starten via het tabblad Actions
 
 permissions:
