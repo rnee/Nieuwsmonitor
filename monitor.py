@@ -1,6 +1,6 @@
 """
 Nieuwsmonitor: haalt nieuws op via Google News RSS en stuurt een push via ntfy.
-Draait elke 15 minuten via GitHub Actions.
+Draait elke 30 minuten via GitHub Actions.
 """
 import json
 import os
@@ -15,9 +15,10 @@ import requests
 # ---------- Instellingen ----------
 # Naam -> zoekopdracht (Google News ondersteunt OR en aanhalingstekens)
 BEDRIJVEN = {
-    "ASML": '"ASML"',
-    "BESI": '"BE Semiconductor" OR "Besi"',
-    "ASMI": '"ASM International"',
+    "ASML"  : '"ASML"',
+    "BESI"  : '"BE Semiconductor" OR "Besi"',
+    "ASMI"  : '"ASM International"',
+    "NVID"  : '"NVIDIA"',
 }
 
 # Zet op True om alleen artikelen te melden met een van deze trefwoorden in de titel
